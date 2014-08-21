@@ -10,4 +10,7 @@
     <string name="start_btn">시작</string>
     <string name="stop_btn">끝</string>
 
+    <string name="slide_unlock">열기</string>
+    <string name="slide_lock">닫기</string>
+
 </resources>

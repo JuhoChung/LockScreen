@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ public class ConfigActivity extends Activity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("ConfigActivity", "startService");
                 Intent intent = new Intent(mContext, ScreenService.class);
                 startService(intent);
             }
@@ -33,6 +35,7 @@ public class ConfigActivity extends Activity {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("ConfigActivity", "stopService");
                 Intent intent = new Intent(mContext, ScreenService.class);
                 stopService(intent);
             }

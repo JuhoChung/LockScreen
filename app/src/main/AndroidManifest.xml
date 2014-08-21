@@ -26,6 +26,16 @@
         <service android:name=".ScreenService" />
 
         <receiver android:name=".ScreenReceiver" />
+
+        <receiver
+            android:name=".RestartReceiver"
+            android:process=".remote" >
+            <intent-filter>
+                <action android:name="com.uricul.lockscreen.RESTART_SERVICE" />
+            </intent-filter>
+
+        </receiver>
+
     </application>
 
 </manifest>
