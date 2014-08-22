@@ -13,4 +13,8 @@
     <string name="slide_unlock">열기</string>
     <string name="slide_lock">닫기</string>
 
+    <string name="service_name">LockScreen Service</string>
+    <string name="service_running">서비스 실행됨</string>
+    <string name="service_foregroung_running">Foreground로 실행중</string>
+
 </resources>

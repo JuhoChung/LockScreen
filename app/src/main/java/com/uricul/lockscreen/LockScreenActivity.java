@@ -23,10 +23,15 @@ public class LockScreenActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("LockScreenActivity", "onPause()");
+    }
+
+    @Override
     protected void onResume() {
-        super.onResume();
+        super.onPause();
         Log.d("LockScreenActivity", "onResume()");
-        mUnlockSwitch.setChecked(false);
     }
 
     private void initView() {
@@ -38,7 +43,8 @@ public class LockScreenActivity extends Activity {
                 Log.d("LockScreenActivity", "UnlockSwitch : " + String.valueOf(isChecked));
 
                 if( isChecked ) {
-                    moveTaskToBack(true);
+                    //moveTaskToBack(true);
+                    finish();
                 }
             }
         });

@@ -1,15 +1,25 @@
 package com.uricul.lockscreen;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.util.Date;
+
 public class ScreenService extends Service {
+    private static final int LOCKSCREEN_SERVICE_ID = 1;
+
     private ScreenReceiver mReceiver = null;
 
     private static final int RESTART_CHECK_PERIOD = 30 * 60 * 1000;     // 30분
@@ -46,6 +56,8 @@ public class ScreenService extends Service {
             }
         }
 
+        setNotification();
+
         return  START_REDELIVER_INTENT;
     }
 
@@ -72,5 +84,27 @@ public class ScreenService extends Service {
         } else {
             alarmManager.cancel(sender);
         }
+    }
+
+    private void setNotification() {
+        String contentTitle = getString(R.string.service_name);
+        String contentText = getString(R.string.service_foregroung_running);
+
+        Bitmap icon = ((BitmapDrawable) this.getResources().getDrawable(R.drawable.lockscreen)).getBitmap();
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setSmallIcon(R.drawable.lockscreen)
+                .setLargeIcon(icon)
+                .setTicker(getString(R.string.app_name))
+                .setAutoCancel(true)
+                .setVibrate(null)
+                .setNumber(0)
+                .setLights(Color.BLUE, 1000, 1000)
+                .setWhen(new Date().getTime())
+                .setContentIntent(null)
+                .build();
+
+        startForeground(LOCKSCREEN_SERVICE_ID, notification);
     }
 }
