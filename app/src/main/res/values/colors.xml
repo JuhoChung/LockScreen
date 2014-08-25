@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="blue">#FF0000FF</color>
+    <color name="lightgray">#FFE9E9E9</color>
+    <color name="lockscreen_background">#FF3437FF</color>
+</resources>
