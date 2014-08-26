@@ -12,8 +12,8 @@ public class RestartReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if( intent.getAction().equals(ACTION_RESTART_SERVICE) ) {
             Log.d("RestartReceiver", "Received Intent Action:" + ACTION_RESTART_SERVICE);
-            Intent newIntent = new Intent(context, ScreenService.class);
 
+            Intent newIntent = new Intent(context, ScreenService.class);
             context.startService(newIntent);
         }
     }

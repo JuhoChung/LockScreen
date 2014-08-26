@@ -5,4 +5,5 @@
     <color name="blue">#FF0000FF</color>
     <color name="lightgray">#FFE9E9E9</color>
     <color name="lockscreen_background">#FF3437FF</color>
+    <color name="lockscreen_clock_text">#FFAA01FF</color>
 </resources>

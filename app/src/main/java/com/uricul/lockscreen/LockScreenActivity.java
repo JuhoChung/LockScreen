@@ -29,6 +29,7 @@ public class LockScreenActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        //mUnlockSwitch.setChecked(false);
         Log.d("LockScreenActivity", "onPause()");
     }
 
@@ -36,6 +37,11 @@ public class LockScreenActivity extends Activity {
     protected void onResume() {
         super.onPause();
         Log.d("LockScreenActivity", "onResume()");
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do Nothing
     }
 
     private void initView() {

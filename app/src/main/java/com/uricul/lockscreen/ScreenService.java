@@ -2,10 +2,8 @@ package com.uricul.lockscreen;
 
 import android.app.AlarmManager;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -20,7 +18,8 @@ import java.util.Date;
 public class ScreenService extends Service {
     private static final int LOCKSCREEN_SERVICE_ID = 1;
 
-    private ScreenReceiver mReceiver = null;
+    private ScreenReceiver mScreenReceiver = null;
+    private PackageReceiver mPackageReceiver = null;
 
     private static final int RESTART_CHECK_PERIOD = 30 * 60 * 1000;     // 30분
 
@@ -35,9 +34,16 @@ public class ScreenService extends Service {
 
         Log.d("ScreenService", "onCreate()");
 
-        mReceiver = new ScreenReceiver();
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(mReceiver, filter);
+        mScreenReceiver = new ScreenReceiver();
+        IntentFilter screenFilter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(mScreenReceiver, screenFilter);
+
+        mPackageReceiver = new PackageReceiver();
+        IntentFilter packageFilter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
+        packageFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        packageFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        packageFilter.addDataScheme("package");
+        registerReceiver(mPackageReceiver, packageFilter);
 
         registerRestartAlarm(true);
     }
@@ -48,10 +54,10 @@ public class ScreenService extends Service {
 
         if( intent != null ) {
             if( intent.getAction() == null ) {
-                if( mReceiver == null ) {
-                    mReceiver = new ScreenReceiver();
+                if( mScreenReceiver == null ) {
+                    mScreenReceiver = new ScreenReceiver();
                     IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-                    registerReceiver(mReceiver, filter);
+                    registerReceiver(mScreenReceiver, filter);
                 }
             }
         }
@@ -65,8 +71,12 @@ public class ScreenService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        if( mReceiver != null ) {
-            unregisterReceiver(mReceiver);
+        if( mScreenReceiver != null ) {
+            unregisterReceiver(mScreenReceiver);
+        }
+
+        if( mPackageReceiver != null ) {
+            unregisterReceiver(mPackageReceiver);
         }
 
         registerRestartAlarm(false);

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uricul.lockscreen" >
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/lockscreen"
@@ -20,7 +22,7 @@
         <activity
             android:name=".LockScreenActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:theme="@android:style/Theme.Black.NoTitleBar"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
@@ -35,7 +37,24 @@
             <intent-filter>
                 <action android:name="com.uricul.lockscreen.RESTART_SERVICE" />
             </intent-filter>
+        </receiver>
 
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".PackageReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package" />
+            </intent-filter>
         </receiver>
 
     </application>

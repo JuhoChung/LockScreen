@@ -1,6 +1,7 @@
 package com.uricul.lockscreen;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ public class ConfigActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("ConfigActivity", "onCreate()");
 
         mContext = this;
         setContentView(R.layout.activity_config);
@@ -28,6 +30,7 @@ public class ConfigActivity extends Activity {
                 Log.d("ConfigActivity", "startService");
                 Intent intent = new Intent(mContext, ScreenService.class);
                 startService(intent);
+                finish();
             }
         });
 
@@ -40,8 +43,28 @@ public class ConfigActivity extends Activity {
                 stopService(intent);
             }
         });
+
+        if( isMyServiceRunning(mContext) ) {
+            startButton.setEnabled(false);
+            stopButton.setEnabled(true);
+        } else {
+            startButton.setEnabled(true);
+            stopButton.setEnabled(false);
+        }
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("ConfigActivity", "onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("ConfigActivity", "onPause()");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,5 +83,15 @@ public class ConfigActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isMyServiceRunning(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.uricul.lockscreen.ScreenService".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
