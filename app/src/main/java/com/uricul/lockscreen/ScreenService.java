@@ -110,7 +110,7 @@ public class ScreenService extends Service {
                 .setAutoCancel(true)
                 .setVibrate(null)
                 .setNumber(0)
-                .setLights(Color.BLUE, 1000, 1000)
+                .setLights(Color.BLUE, 0, 0)
                 .setWhen(new Date().getTime())
                 .setContentIntent(null)
                 .build();
